@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password-Generator</title>
+    <link rel="icon" href="https://icon-library.com/images/iphone-lock-icon/iphone-lock-icon-28.jpg"
+        type="image/x-icon">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-weight: bolder;
+            box-sizing: border-box;
+            font-family: 'Edu SA Beginner', cursive;
+        }
+
+        HTML {
+            font-size: 62.5%;
+        }
+
+        #wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+            line-height: 1.5;
+            /* letter-spacing: 0.1rem; */
+            background-image: linear-gradient(to right bottom, #ee8285, #eb83a1, #de89bb, #ca92d0, #af9cdf, #9aa8ed, #82b4f5, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+        }
+
+        #wrapper-child {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            width: 90%;
+            max-width: 450px;
+
+        }
+
+        .hedding {
+            text-transform: uppercase;
+            opacity: 0.7;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .Display-contaoner {
+            position: relative;
+            background-color: #0c01019a;
+            border-radius: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            width: 58%;
+        }
+
+        .display {
+            height: 3.25rem;
+            border-radius: 1rem;
+            padding: 0 0 0 1.5rem;
+            text-transform: uppercase;
+            background: transparent;
+            border: transparent;
+            color: rgba(255, 255, 0, 0.712);
+            font-size: 2rem;
+
+        }
+
+        .display::placeholder {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.8;
+            color: white;
+        }
+
+        #input-container {
+            background-color: #0c01019a;
+            border-radius: 1rem;
+            width: 58%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1.5;
+            color: white;
+            font-size: 1.5rem;
+            padding: 3rem;
+        }
+
+        h4 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-top: 2rem;
+        }
+
+        .Length-container {
+            display: flex;
+            justify-content: space-between;
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .data-lengthNumber-n {
+            color: yellow;
+        }
+
+        .strength-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.75rem;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+
+        .color-circle {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+        }
+
+        .generateButton {
+            border-radius: 0.75rem;
+            color: yellow;
+            width: 100%;
+            padding: 1rem 2rem;
+            background-color: #0c0101c0;
+            border: transparent;
+            cursor: pointer;
+            text-transform: uppercase;
+
+        }
+
+        .follow {
+            display: flex;
+            justify-content: space-evenly;
+            margin: 2rem 0;
+        }
+
+        .follow img {
+            margin: 0 1rem;
+            cursor: pointer;
+        }
+
+        .checkBox {
+            line-height: 2;
+            letter-spacing: 0.05rem;
+        }
+
+        .slider {
+            width: 100%;
+            appearance: none;
+            height: 0.75rem;
+            cursor: pointer;
+            background-color: rgb(161, 209, 66);
+            border-radius: 1rem;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+            background-repeat: no-repeat;
+            border-color: yellow;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            height: 2rem;
+            width: 2rem;
+            border-radius: 50%;
+            background-color: rgb(0, 0, 0);
+            cursor: pointer;
+            box-shadow: 0px 0px 20px 0px rgb(243, 143, 12);
+            transition: all 100ms ease-in;
+        }
+
+        .data-copy-btn {
+            background-color: transparent;
+            border: none;
+            outline: none;
+        }
+
+        .data-copy-btn-text {
+            position: absolute;
+            background-color: #fff;
+            color: black;
+            font-size: 1.25rem;
+            /* top: -18px;
+    right: 15px; */
+            padding: 5px 10px;
+            border-radius: 1rem;
+            opacity: 0;
+            transform: scale(0);
+            transform-origin: bottom;
+            transition: all 250ms ease-in-out;
+        }
+
+        .data-copy-btn-text.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+
+
+
+
+
+
+        /* ---------------------------------------  */
+
+        @media (max-width: 998px) {
+            html {
+                font-size: 55%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            html {
+                font-size: 45%;
+            }
+        }
+    </style>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Edu+SA+Beginner:wght@400;500;600;700&display=swap');
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="wrapper-child">
+            <div class="hedding">
+                <h1>Password Generator</h1>
+            </div>
+            <div class="Display-contaoner">
+                <input readonly placeholder="Password" class="display" data-passwordDisplay>
+                <button class="data-copy-btn" data-copy>
+                    <span class="data-copy-btn-text" data-copyMsg></span>
+                    <img src="https://thenounproject.com/api/private/icons/4615638/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+                        alt="Copy" height="25" width="25" class="img">
+                </button>
+            </div>
+            <div id="input-container">
+                <div class="item">
+                    <!-- length  -->
+                    <div class="Length-container">
+                        <p>Password Length</p>
+                        <p class="data-lengthNumber-n" data-lengthNumber>0</p>
+                    </div>
+                    <!-- slider  -->
+                    <input type="range" min="1" max="20" value="8" step="1" class="slider" data-lengthSlider>
+                    <!-- checkbox  -->
+                    <div class="checkBox">
+                        <input type="checkbox" id="uppercase">
+                        <label for="uppercase">Includes Uppercase Letters</label>
+                    </div>
+                    <div class="checkBox">
+                        <input type="checkbox" id="lowercase">
+                        <label for="lowercase">Includes Lowercase Letters</label>
+                    </div>
+                    <div class="checkBox">
+                        <input type="checkbox" id="number">
+                        <label for="number">Includes Numbers</label>
+                    </div>
+                    <div class="checkBox">
+                        <input type="checkbox" id="symbol">
+                        <label for="symbol">Includes Symbols</label>
+                    </div>
+                    <!-- strength  -->
+                    <div class="strength-container" data-indicator>
+                        <p>Strength</p>
+                        <div class="color-circle"></div>
+                    </div>
+                    <!-- button  -->
+                    <button class="generateButton">
+                        Generate Password
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        <div class="follow">
+            <a href="https://www.instagram.com/chaudhary_1o1/" target="_blank"><img
+                    src="https://cdn-icons-png.flaticon.com/512/87/87390.png" alt="" height="30" width="30"></a>
+
+            <a href="https://twitter.com/chaudhary_1o1" target="_blank"><img
+                    src="https://cdn3.iconfinder.com/data/icons/picons-social/57/43-twitter-512.png" height="31"
+                    width="31" alt=""></a>
+
+            <a href="https://www.linkedin.com/in/ritik-mmmut/" target="_blank"><img
+                    src="https://cdn-icons-png.flaticon.com/512/49/49656.png" height="30" width="30" alt=""></a>
+
+
+        </div>
+        <h4>Developed by Ritik Chaudhary</h4>
+    </div>
+
+
+
+    <script>
+        const inputSlider = document.querySelector("[data-lengthSlider]");
+        const lengthDisplay = document.querySelector("[data-lengthNumber]");
+        const passwordDisplay = document.querySelector("[data-passwordDisplay]");
+        const copyBtn = document.querySelector("[data-copy]");
+        const copyMsg = document.querySelector("[data-copyMsg]");
+        const uppercaseCheck = document.querySelector("#uppercase");
+        const lowercaseCheck = document.querySelector("#lowercase");
+        const numbersCheck = document.querySelector("#number");
+        const symbolsCheck = document.querySelector("#symbol");
+        const indicator = document.querySelector(".color-circle");
+        const generateBtn = document.querySelector(".generateButton");
+        const allCheckBox = document.querySelectorAll("input[type=checkbox]");
+        const symbols = '!@#$%^&*()_+{}:;<>?/|\=-~`';
+
+        let password = "";
+        let passwordLength = 10;
+        let checkCount = 0;
+        handleSlider();
+        // set circle strength color to red
+        setIndicator("#ccc")
+
+        function handleSlider() {
+            inputSlider.value = passwordLength;
+            lengthDisplay.innerText = passwordLength;
+        }
+
+        function setIndicator(color) {
+            indicator.style.background = color;
+            indicator.style.boxShadow = `0px 0px 12px 1px ${color}`;
+        }
+
+        function getRndInteger(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function generateRandomNumber() {
+            return getRndInteger(0, 9);
+        }
+
+        function generateLowerCase() {
+            return String.fromCharCode(getRndInteger(97, 123));
+        }
+        function generateUpperCase() {
+            return String.fromCharCode(getRndInteger(65, 90));
+        }
+
+        function generateSymbol() {
+            const randNum = getRndInteger(0, symbols.length);
+            return symbols.charAt(randNum);
+        }
+
+        function calcStrength() {
+            let hasUpper = false;
+            let hasLower = false;
+            let hasNum = false;
+            let hasSym = false;
+            if (uppercaseCheck.checked) hasUpper = true;
+            if (lowercaseCheck.checked) hasLower = true;
+            if (numbersCheck.checked) hasNum = true;
+            if (symbolsCheck.checked) hasSym = true;
+
+            if (hasUpper && hasLower && (hasNum || hasSym) && passwordLength >= 8) {
+
+                setIndicator("#0f0");
+            } else if (
+                (hasLower || hasUpper) &&
+                (hasNum || hasSym) &&
+                passwordLength >= 6
+            ) {
+                setIndicator("#ff0");
+            } else {
+                setIndicator("#f00");
+            }
+        }
+
+        // shufefel password
+
+        function shufflePassword(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                const temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+            let str = "";
+            array.forEach((el) => (str += el));
+            return str;
+
+        };
+
+
+        async function copyContent() {
+
+            try {
+                await navigator.clipboard.writeText(passwordDisplay.value);
+                copyMsg.innerText = "copied";
+            }
+            catch (e) {
+                copyMsg.innerText = "Failed"
+            }
+            copyMsg.classList.add("active");
+
+            setTimeout(() => {
+                copyMsg.classList.remove("active");
+            }, 2000);
+        }
+
+        inputSlider.addEventListener('input', (e) => {
+            passwordLength = e.target.value;
+            handleSlider();
+        });
+
+        copyBtn.addEventListener('click', () => {
+            if (passwordDisplay.value)
+                copyContent();
+        });
+
+        function handleCheckBoxChange() {
+            checkCount = 0;
+            allCheckBox.forEach((checkbox) => {
+                if (checkbox.checked)
+                    checkCount++;
+            });
+
+            // special case 
+            if (passwordLength < checkCount) {
+                passwordLength = checkCount;
+                handleSlider();
+            }
+        };
+
+
+        allCheckBox.forEach((checkbox) => {
+            checkbox.addEventListener('change', handleCheckBoxChange);
+        })
+
+
+        // generate password 
+
+        generateBtn.addEventListener('click', () => {
+            // none checkbox is selected 
+            if (checkCount <= 0) return;
+
+            if (passwordLength < checkCount) {
+                passwordLength = checkCount;
+                handleSlider();
+
+            }
+            // let's start to fond new password
+
+            // remove old password
+
+            password = "";
+
+            let funcArr = [];
+
+            if (uppercaseCheck.checked)
+                funcArr.push(generateUpperCase);
+
+            if (lowercaseCheck.checked)
+                funcArr.push(generateLowerCase);
+
+            if (numbersCheck.checked)
+                funcArr.push(generateRandomNumber);
+
+            if (symbolsCheck.checked)
+                funcArr.push(generateSymbol);
+
+            // compulsary addition
+
+            for (let i = 0; i < funcArr.length; i++) {
+                password += funcArr[i]();
+            }
+
+            // remaining addition
+
+            for (let i = 0; i < passwordLength - funcArr.length; i++) {
+                let randIndex = getRndInteger(0, funcArr.length);
+                console.log("randIndex" + randIndex)
+                password += funcArr[randIndex]();
+            }
+
+
+            //sufeelt the password
+
+            password = shufflePassword(Array.from(password));
+
+
+            //show in UI
+
+            passwordDisplay.value = password;
+            // calculate strength
+            calcStrength();
+
+        });
+    </script>
+</body>
+
+</html>
